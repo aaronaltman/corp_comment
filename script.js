@@ -7,6 +7,7 @@ const listEl = document.querySelector(".feedbacks");
 const formEl = document.querySelector(".form");
 const textareaEl = document.querySelector(".form__textarea");
 const counterEl = document.querySelector(".counter");
+const spinnerEl = document.querySelector(".spinner");
 
 // Input Handler -- Counter -- 
 const inputHandler = () => {
@@ -87,6 +88,8 @@ formEl.addEventListener("submit", buttonHandler);
 fetch('https://bytegrad.com/course-assets/js/1/api/feedbacks')
 .then(response => response.json())
 .then(data => {
+  //
+  spinnerEl.remove();
 // iterate over data.feedbacks
 data.feedbacks.forEach(feedbackItem => {
   // Create new list item
@@ -109,4 +112,6 @@ data.feedbacks.forEach(feedbackItem => {
 
   listEl.insertAdjacentHTML("beforeend", feedbackItemHTML);
   });
+}).catch(error => {
+  console.log(error);
 });
