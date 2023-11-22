@@ -1,11 +1,12 @@
-/* 
-counter
- *
- *
- */
+// Global variables
+const buttonEl = document.querySelector(".submit-btn");
+const inputEl = document.querySelector(".form__textarea");
+const listEl = document.querySelector(".feedbacks");
+const formEl = document.querySelector(".form");
 const textareaEl = document.querySelector(".form__textarea");
 const counterEl = document.querySelector(".counter");
 
+// Create a new list item --- inputHandler
 const inputHandler = () => {
   // Determine maximum number of characters
   const maxCharacters = 150;
@@ -19,16 +20,7 @@ const inputHandler = () => {
 
 textareaEl.addEventListener("input", inputHandler);
 
-/* 
-submit button
- *
- *
- */
-const buttonEl = document.querySelector(".submit-btn");
-const inputEl = document.querySelector(".form__textarea");
-const listEl = document.querySelector(".feedbacks");
-const formEl = document.querySelector(".form");
-
+// Create a new list item -- buttonHandler
 const buttonHandler = (event) => {
   const inputValue = inputEl.value;
   console.log(event);
