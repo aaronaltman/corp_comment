@@ -64,7 +64,6 @@ const buttonHandler = (event) => {
     </div>
     <p class="feedback__date">${daysAgo}</p>
 </li>
-  
   `;
   listEl.innerHTML = feedbackItemHTML;
 };
