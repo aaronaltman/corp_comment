@@ -65,7 +65,7 @@ const buttonHandler = (event) => {
     <p class="feedback__date">${daysAgo}</p>
 </li>
   `;
-  listEl.innerHTML = feedbackItemHTML;
+  listEl.insertAdjacentHTML("beforeend", feedbackItemHTML);
 };
 
 formEl.addEventListener("submit", buttonHandler);
