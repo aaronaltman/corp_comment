@@ -22,8 +22,21 @@ textareaEl.addEventListener("input", inputHandler);
 
 // Create a new list item -- buttonHandler
 const buttonHandler = (event) => {
+  // Prevent default behavior
+  event.preventDefault();
   const inputValue = inputEl.value;
-  console.log(event);
+
+  if (inputValue.includes("#") && inputValue.length >= 5) {
+    formEl.classList.add("form--valid");
+    setTimeout(() => {
+      formEl.classList.remove("form--valid");
+    }, 2000);
+  } else {
+    formEl.classList.add("form--invalid");
+    setTimeout(() => {
+      formEl.classList.remove("form--invalid");
+    }, 2000);
+  }
 };
 
 formEl.addEventListener("submit", buttonHandler);
