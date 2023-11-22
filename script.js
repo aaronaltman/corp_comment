@@ -62,7 +62,7 @@ const buttonHandler = (event) => {
         <p class="feedback__company">${company}</p>
         <p class="feedback__text">${inputValue}</p>
     </div>
-    <p class="feedback__date">${daysAgo}</p>
+    <p class="feedback__date">${daysAgo === 0 ? "NEW" : `${daysAgo}d`}</p>
 </li>
   `;
   listEl.insertAdjacentHTML("beforeend", feedbackItemHTML);
