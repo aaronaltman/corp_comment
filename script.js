@@ -8,6 +8,7 @@ const formEl = document.querySelector(".form");
 const textareaEl = document.querySelector(".form__textarea");
 const counterEl = document.querySelector(".counter");
 const spinnerEl = document.querySelector(".spinner");
+const BASE_API_URL = 'https://bytegrad.com/course-assets/js/1/api';
 
 //create feedback item object
   const feedbackItem = {
@@ -43,13 +44,9 @@ const renderFeedbackItem = feedbackItem => {
 
 // Input Handler -- Counter -- 
 const inputHandler = () => {
-  // Determine maximum number of characters
   const maxCharacters = MAX_CHARS;
-  // Determine number of characters in textarea
   const currentCharacters = textareaEl.value.length;
-  // Determine number of characters remaining
   const remainingCharacters = maxCharacters - currentCharacters;
-  // Update counter
   counterEl.textContent = remainingCharacters;
 };
 
@@ -58,7 +55,6 @@ textareaEl.addEventListener("input", inputHandler);
 // Form Handler --
 const formValidation = textCheck => {
   const className = textCheck === 'valid' ? 'form--valid' : 'form--invalid';
-
   formEl.classList.add(className);
     setTimeout(() => {
       formEl.classList.remove(className);
@@ -101,7 +97,7 @@ const buttonHandler = (event) => {
 formEl.addEventListener("submit", buttonHandler);
 
 // send feedback to server
-fetch('https://bytegrad.com/course-assets/js/1/api/feedbacks', {
+fetch(`${BASE_API_URL}/feedbacks`, {
   method: 'POST',
   body: JSON.stringify(feedbackItem),
   headers: {
