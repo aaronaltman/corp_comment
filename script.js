@@ -9,6 +9,16 @@ const textareaEl = document.querySelector(".form__textarea");
 const counterEl = document.querySelector(".counter");
 const spinnerEl = document.querySelector(".spinner");
 
+//create feedback item object
+  const feedbackItem = {
+    inputValue: inputValue,
+    company: company,
+    badgeLetter: badgeLetter,
+    upVote: upVote,
+    daysAgo: daysAgo,
+    text: inputValue,
+  };
+
 // render feedback item
 const renderFeedbackItem = feedbackItem => {
    const feedbackItemHTML = `
@@ -18,11 +28,11 @@ const renderFeedbackItem = feedbackItem => {
         <span class="upvote__count">${feedbackItem.upVote}</span>
     </button>
     <section class="feedback__badge">
-        <p class="feedback__letter">${feedbackItem.badgeLetter}</p>
+        <p class="feedback__letter">${badgeLetter}</p>
     </section>
     <div class="feedback__content">
-        <p class="feedback__company">${feedbackItem.company}</p>
-        <p class="feedback__text">${feedbackItem.inputValue}</p>
+        <p class="feedback__company">${company}</p>
+        <p class="feedback__text">${inputValue}</p>
     </div>
     <p class="feedback__date">${feedbackItem.daysAgo === 0 ? "NEW" : `${feedbackItem.daysAgo}d`}</p>
 </li>
@@ -76,15 +86,6 @@ const buttonHandler = (event) => {
   const upVote = 0;
   const daysAgo = 0;
 
-  //crete feedback item object
-  const feedbackItem = {
-    inputValue: inputValue,
-    company: company,
-    badgeLetter: badgeLetter,
-    upVote: upVote,
-    daysAgo: daysAgo,
-    text: inputValue,
-  };
 
   // Create new list item
   renderFeedbackItem(feedbackItem);
@@ -99,6 +100,23 @@ const buttonHandler = (event) => {
 
 formEl.addEventListener("submit", buttonHandler);
 
+// send feedback to server
+fetch('https://bytegrad.com/course-assets/js/1/api/feedbacks', {
+  method: 'POST',
+  body: JSON.stringify(feedbackItem),
+  headers: {
+    'Content-Type': 'application/json'
+  }
+}).then(response => response.json())
+.then(data => {
+  console.log('Success:', data);
+})
+// Click Handler --
+const clickHandler = () => {
+  console.log('hello')
+}
+// Upvote Handler --
+listEl.addEventListener("click", clickHandler);
 
 // Feedback List Component --
 fetch('https://bytegrad.com/course-assets/js/1/api/feedbacks')
@@ -114,3 +132,4 @@ data.feedbacks.forEach(feedbackItem => {
 }).catch(error => {
   console.log(error);
 });
+
