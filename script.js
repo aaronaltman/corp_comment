@@ -8,7 +8,7 @@ const listEl = document.querySelector(".feedbacks");
 MAX_CHARS = 150;
 
 // -- Counter Component (150) --
-// -- Counts the number of characters in the text area --
+// -- Counts the number of characters and subtracts from counter --
 const inputHandler = () => {
   const text = textAreaEl.value;
   const textLength = text.length;
@@ -18,31 +18,35 @@ const inputHandler = () => {
 // input event listener - then execute the inputHandler function
 textAreaEl.addEventListener("input", inputHandler);
 
-// Submit Button
+// refactoring the form validation
+const showVisualIndicator = (textcheck) => {
+  const className = textcheck === "valid" ? "form--valid" : "form--invalid";
+  formEl.classList.add(className);
+  // Set timeout for form class removal
+  setTimeout(() => {
+    formEl.classList.remove(className);
+  }, 2000);
+};
+
+// -- Form Component --
+// -- Submit Button Logic --
 const submitHandler = (event) => {
   event.preventDefault();
   const text = textAreaEl.value;
   const textLength = text.length;
-  // validate text
-  if (textLength >= 6 && text.includes("#")) {
-    formEl.classList.add("form--valid");
-    // Set timeout for form class removal
-    setTimeout(() => {
-      formEl.classList.remove("form--valid");
-    }, 2000);
+  // validate text length and hashtag
+  if (textLength >= 5 && text.includes("#")) {
+    showVisualIndicator("valid");
   } else {
-    formEl.classList.add("form--invalid");
-    // Set timeout for form class removal
-    setTimeout(() => {
-      formEl.classList.remove("form--invalid");
-    }, 2000);
+    showVisualIndicator("invalid");
   }
+
   // Constants for adding a list item
   const hashtag = text.split(" ").find((word) => word.includes("#"));
   const companyName = hashtag.slice(1);
   const badgeLetter = companyName.substring(0, 1).toUpperCase();
   const upvote = 0;
-  const daysAgo = 0;
+  let daysAgo = 0;
 
   // -- Create the FeedbackItem HTML Object --
   const feedbackItemHTML = `<li class="feedback">
@@ -59,11 +63,19 @@ const submitHandler = (event) => {
         ${text}
       </p>
     </div>
-    <p class="feedback__date">${daysAgo}</p>
+    <p class="feedback__date">${daysAgo === 0 ? "NEW" : `${daysAgo}d`}</p>
   </li>`;
   // -- Add the FeedbackItem HTML Object to the DOM --
   listEl.insertAdjacentHTML("beforeend", feedbackItemHTML);
+
+  // -- Clear the text area --
+  textAreaEl.value = "";
+  // -- button blur --
+  submitButtonEl.blur();
+  // -- Reset the counter --
+  counterEl.textContent = MAX_CHARS;
 };
+
 // when clicked: log the input, store the input in a variable, and count the length of the input
 formEl.addEventListener("submit", submitHandler);
 
