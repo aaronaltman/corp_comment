@@ -20,11 +20,13 @@ textAreaEl.addEventListener("input", inputHandler);
 const submitHandler = (event) => {
   event.preventDefault();
   const text = textAreaEl.value;
+  const textLength = text.length;
+  const splitHashtags = text.split(" ");
   // validate text
-  if (text < 6) {
-    formEl.classList.add("form--invalid");
-  } else {
+  if (textLength >= 6 && text.includes("#")) {
     formEl.classList.add("form--valid");
+  } else {
+    formEl.classList.add("form--invalid");
   }
 };
 // when clicked: log the input, store the input in a variable, and count the length of the input
