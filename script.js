@@ -1,131 +1,30 @@
-// Global variables
-const MAX_CHARS = 150;
-
-const buttonEl = document.querySelector(".submit-btn");
-const inputEl = document.querySelector(".form__textarea");
-const listEl = document.querySelector(".feedbacks");
+// Global Variables
+const textAreaEl = document.querySelector(".form__textarea");
 const formEl = document.querySelector(".form");
-const textareaEl = document.querySelector(".form__textarea");
+const submitButtonEl = document.querySelector(".submit-btn");
 const counterEl = document.querySelector(".counter");
-const spinnerEl = document.querySelector(".spinner");
-const BASE_API_URL = 'https://bytegrad.com/course-assets/js/1/api';
+MAX_CHARS = 150;
 
-//create feedback item object
-  const feedbackItem = {
-    inputValue: inputValue,
-    company: company,
-    badgeLetter: badgeLetter,
-    upVote: upVote,
-    daysAgo: daysAgo,
-    text: inputValue,
-  };
-
-// render feedback item
-const renderFeedbackItem = feedbackItem => {
-   const feedbackItemHTML = `
- <li class="feedback">
-    <button class="upvote">
-        <i class="fa-solid fa-caret-up upvote__icon"></i>
-        <span class="upvote__count">${feedbackItem.upVote}</span>
-    </button>
-    <section class="feedback__badge">
-        <p class="feedback__letter">${badgeLetter}</p>
-    </section>
-    <div class="feedback__content">
-        <p class="feedback__company">${company}</p>
-        <p class="feedback__text">${inputValue}</p>
-    </div>
-    <p class="feedback__date">${feedbackItem.daysAgo === 0 ? "NEW" : `${feedbackItem.daysAgo}d`}</p>
-</li>
-  `;
-  listEl.insertAdjacentHTML("beforeend", feedbackItemHTML);
-
-};
-
-// Input Handler -- Counter -- 
+// Counter Component
+// InputHandler function
 const inputHandler = () => {
-  const maxCharacters = MAX_CHARS;
-  const currentCharacters = textareaEl.value.length;
-  const remainingCharacters = maxCharacters - currentCharacters;
-  counterEl.textContent = remainingCharacters;
+  const text = textAreaEl.value;
+  const textLength = text.length;
+  let charsLeft = MAX_CHARS - textLength;
+  // Counter needs to count down as characters are added
+  counterEl.textContent = charsLeft;
 };
+// input event listener - then execute the inputHandler function
+textAreaEl.addEventListener("input", inputHandler);
 
-textareaEl.addEventListener("input", inputHandler);
-
-// Form Handler --
-const formValidation = textCheck => {
-  const className = textCheck === 'valid' ? 'form--valid' : 'form--invalid';
-  formEl.classList.add(className);
-    setTimeout(() => {
-      formEl.classList.remove(className);
-    }, 2000);
-
-}
-const buttonHandler = (event) => {
-  // Prevent default behavior
+// Submit Button
+const submitHandler = (event) => {
   event.preventDefault();
-  const inputValue = inputEl.value;
-
-  if (inputValue.includes("#") && inputValue.length >= 5) {
-    formValidation('valid');
-  } else {
-    formValidation('invalid');
-  }
-
-  // Get info to Create new list item --
-  const hashtag = inputValue
-    .split(" ")
-    .find((word) => word.includes("#"))
-    .replace("#", "");
-  const company = hashtag.split(0);
-  const badgeLetter = hashtag.substring(0, 1).toUpperCase();
-  const upVote = 0;
-  const daysAgo = 0;
-
-
-  // Create new list item
-  renderFeedbackItem(feedbackItem);
- 
-  // Clear textarea
-  inputEl.value = "";
-  // Reset counter
-  counterEl.textContent = MAX_CHARS;
-  // Reset button
-  buttonEl.blur() = true;
+  console.log("submitted");
 };
+// when clicked: log the input, store the input in a variable, and count the length of the input
+formEl.addEventListener("submit", submitHandler);
 
-formEl.addEventListener("submit", buttonHandler);
+// Log the data to the server
 
-// send feedback to server
-fetch(`${BASE_API_URL}/feedbacks`, {
-  method: 'POST',
-  body: JSON.stringify(feedbackItem),
-  headers: {
-    'Content-Type': 'application/json'
-  }
-}).then(response => response.json())
-.then(data => {
-  console.log('Success:', data);
-})
-// Click Handler --
-const clickHandler = () => {
-  console.log('hello')
-}
-// Upvote Handler --
-listEl.addEventListener("click", clickHandler);
-
-// Feedback List Component --
-fetch('https://bytegrad.com/course-assets/js/1/api/feedbacks')
-.then(response => response.json())
-.then(data => {
-  //
-  spinnerEl.remove();
-// iterate over data.feedbacks
-data.feedbacks.forEach(feedbackItem => {
-  // Create new list item
-  renderFeedbackItem(feedbackItem);
-  });
-}).catch(error => {
-  console.log(error);
-});
-
+// Retrieve the data from the server
