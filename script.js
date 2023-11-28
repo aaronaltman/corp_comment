@@ -3,6 +3,7 @@ const textAreaEl = document.querySelector(".form__textarea");
 const formEl = document.querySelector(".form");
 const submitButtonEl = document.querySelector(".submit-btn");
 const counterEl = document.querySelector(".counter");
+
 MAX_CHARS = 150;
 
 // Counter Component - counts the number of characters in the text area
@@ -19,12 +20,17 @@ textAreaEl.addEventListener("input", inputHandler);
 const submitHandler = (event) => {
   event.preventDefault();
   const text = textAreaEl.value;
-  console.log(text);
+  // validate text
+  if (text < 6) {
+    formEl.classList.add("form--invalid");
+  } else {
+    formEl.classList.add("form--valid");
+  }
 };
 // when clicked: log the input, store the input in a variable, and count the length of the input
 formEl.addEventListener("submit", submitHandler);
 
-// Log the data to the server
+// Add a list item once form submitted
 
 // Retrieve the data from the server
 
