@@ -25,8 +25,16 @@ const submitHandler = (event) => {
   // validate text
   if (textLength >= 6 && text.includes("#")) {
     formEl.classList.add("form--valid");
+    // Set timeout for form class removal
+    setTimeout(() => {
+      formEl.classList.remove("form--valid");
+    }, 2000);
   } else {
     formEl.classList.add("form--invalid");
+    // Set timeout for form class removal
+    setTimeout(() => {
+      formEl.classList.remove("form--invalid");
+    }, 2000);
   }
 };
 // when clicked: log the input, store the input in a variable, and count the length of the input
