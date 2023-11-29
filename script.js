@@ -116,6 +116,7 @@ fetch("https://bytegrad.com/course-assets/js/1/api/feedbacks")
     });
   })
   .catch((error) => {
+    listEl.textContent = "Error loading feedbacks";
     console.log(error);
   });
 
