@@ -109,6 +109,19 @@ const submitHandler = (event) => {
 // when clicked: log the input, store the input in a variable, and count the length of the input
 formEl.addEventListener("submit", submitHandler);
 
+// -- Expand list item functionatility --
+const clickHandler = (event) => {
+  // get the html element that was clicked
+  const clickedEl = event.target;
+  // determine if the clicked element was the upvote button or expansion
+  const upvoteIntention = clickedEl.className.includes("upvote");
+  if (upvoteIntention == true) {
+    //get the upvote count
+    console.log("upvote clicked");
+  }
+};
+listEl.addEventListener("click", clickHandler);
+
 // Retrieve the data from the server
 fetch(`${BASE_API_URL}/feedbacks`)
   .then((response) => response.json())
