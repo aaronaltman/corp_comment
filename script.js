@@ -5,8 +5,31 @@ const submitButtonEl = document.querySelector(".submit-btn");
 const counterEl = document.querySelector(".counter");
 const listEl = document.querySelector(".feedbacks");
 const spinnerEl = document.querySelector(".spinner");
+
 // -- Constants --
 MAX_CHARS = 150;
+
+// -- Refactor the feedback HTML --
+const renderFeedbackHTML = (feedbackItem) => {
+  const feedbackItemHTML = `<li class="feedback">
+    <button class="upvote">
+      <i class="fa-solid fa-caret-up upvote__icon"></i>
+      <span class="upvote__count">${feedbackItem.upvoteCount}</span>
+    </button>
+    <section class="feedback__badge">
+      <p class="feedback__letter">${feedbackItem.badgeLetter}</p>
+    </section>
+    <div class="feedback__content">
+      <p class="feedback__company">${feedbackItem.company}</p>
+      <p class="feedback__text">
+        ${feedbackItem.text}
+      </p>
+    </div>
+    <p class="feedback__date">${
+      feedbackItem.daysAgo === 0 ? "NEW" : `${feedbackItem.daysAgo}d`
+    }</p>
+  </li>`;
+};
 
 // -- Counter Component (150) --
 // -- Counts the number of characters and subtracts from counter --
@@ -49,23 +72,17 @@ const submitHandler = (event) => {
   const upvote = 0;
   let daysAgo = 0;
 
-  // -- Create the FeedbackItem HTML Object --
-  const feedbackItemHTML = `<li class="feedback">
-    <button class="upvote">
-      <i class="fa-solid fa-caret-up upvote__icon"></i>
-      <span class="upvote__count">${upvote}</span>
-    </button>
-    <section class="feedback__badge">
-      <p class="feedback__letter">${badgeLetter}</p>
-    </section>
-    <div class="feedback__content">
-      <p class="feedback__company">${companyName}</p>
-      <p class="feedback__text">
-        ${text}
-      </p>
-    </div>
-    <p class="feedback__date">${daysAgo === 0 ? "NEW" : `${daysAgo}d`}</p>
-  </li>`;
+  // New Feedback Item Object
+  const feedbackItem = {
+    upvoteCount: upvote,
+    badgeLetter: badgeLetter,
+    company: companyName,
+    text: text,
+    daysAgo: daysAgo,
+  };
+
+  // render the feedback item
+  renderFeedbackHTML(feedbackItem);
   // -- Add the FeedbackItem HTML Object to the DOM --
   listEl.insertAdjacentHTML("beforeend", feedbackItemHTML);
 
