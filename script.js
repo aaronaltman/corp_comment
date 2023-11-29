@@ -5,6 +5,7 @@ const submitButtonEl = document.querySelector(".submit-btn");
 const counterEl = document.querySelector(".counter");
 const listEl = document.querySelector(".feedbacks");
 const spinnerEl = document.querySelector(".spinner");
+const BASE_API_URL = "https://bytegrad.com/course-assets/js/1/api";
 
 // -- Constants --
 MAX_CHARS = 150;
@@ -88,9 +89,13 @@ const submitHandler = (event) => {
   listEl.insertAdjacentHTML("beforeend", feedbackItem);
 
   // Send List Item to the Server
-  fetch("https://bytegrad.com/course-assets/js/1/api/feedbacks", {
+  fetch(`${BASE_API_URL}/feedbacks`, {
     method: "POST",
     body: JSON.stringify(feedbackItem),
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
   });
 
   // -- Clear the text area --
@@ -105,7 +110,7 @@ const submitHandler = (event) => {
 formEl.addEventListener("submit", submitHandler);
 
 // Retrieve the data from the server
-fetch("https://bytegrad.com/course-assets/js/1/api/feedbacks")
+fetch(`${BASE_API_URL}/feedbacks`)
   .then((response) => response.json())
   .then((data) => {
     // Remove the Spinner loading icon
