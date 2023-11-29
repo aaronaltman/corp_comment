@@ -10,7 +10,7 @@ const spinnerEl = document.querySelector(".spinner");
 MAX_CHARS = 150;
 
 // -- Refactor the feedback HTML --
-const renderFeedbackHTML = (feedbackItem) => {
+const renderFeedbackItem = (feedbackItem) => {
   const feedbackItemHTML = `<li class="feedback">
     <button class="upvote">
       <i class="fa-solid fa-caret-up upvote__icon"></i>
@@ -29,6 +29,7 @@ const renderFeedbackHTML = (feedbackItem) => {
       feedbackItem.daysAgo === 0 ? "NEW" : `${feedbackItem.daysAgo}d`
     }</p>
   </li>`;
+  listEl.insertAdjacentHTML("beforeend", feedbackItemHTML);
 };
 
 // -- Counter Component (150) --
@@ -106,13 +107,7 @@ fetch("https://bytegrad.com/course-assets/js/1/api/feedbacks")
     // Remove the Spinner loading icon
     spinnerEl.remove();
     // iterate over the data and add a list item for each item in the array
-    data.feedbacks.forEach((feedbackItem) => {
-      // render the feedback item
-      renderFeedbackHTML(feedbackItem);
-
-      // Add the FeedbackItem HTML Object to the DOM
-      listEl.insertAdjacentHTML("beforeend", feedbackItemHTML);
-    });
+    data.feedbacks.forEach((feedbackItem) => renderFeedbackItem(feedbackItem));
   })
   .catch((error) => {
     listEl.textContent = "Error loading feedbacks";
