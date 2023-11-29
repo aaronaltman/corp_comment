@@ -4,6 +4,7 @@ const formEl = document.querySelector(".form");
 const submitButtonEl = document.querySelector(".submit-btn");
 const counterEl = document.querySelector(".counter");
 const listEl = document.querySelector(".feedbacks");
+const spinnerEl = document.querySelector(".spinner");
 // -- Constants --
 MAX_CHARS = 150;
 
@@ -85,6 +86,8 @@ formEl.addEventListener("submit", submitHandler);
 fetch("https://bytegrad.com/course-assets/js/1/api/feedbacks")
   .then((response) => response.json())
   .then((data) => {
+    // Remove the Spinner loading icon
+    spinnerEl.remove();
     // iterate over the data and add a list item for each item in the array
     data.feedbacks.forEach((feedbackItem) => {
       // New Feedback Item HTML
@@ -111,6 +114,9 @@ fetch("https://bytegrad.com/course-assets/js/1/api/feedbacks")
       // Add the FeedbackItem HTML Object to the DOM
       listEl.insertAdjacentHTML("beforeend", feedbackItemHTML);
     });
+  })
+  .catch((error) => {
+    console.log(error);
   });
 
 // Display the data on the page
