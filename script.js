@@ -83,9 +83,9 @@ const submitHandler = (event) => {
   };
 
   // render the feedback item
-  renderFeedbackHTML(feedbackItem);
+  renderFeedbackItem(feedbackItem);
   // -- Add the FeedbackItem HTML Object to the DOM --
-  listEl.insertAdjacentHTML("beforeend", feedbackItemHTML);
+  listEl.insertAdjacentHTML("beforeend", feedbackItem);
 
   // -- Clear the text area --
   textAreaEl.value = "";
@@ -98,7 +98,14 @@ const submitHandler = (event) => {
 // when clicked: log the input, store the input in a variable, and count the length of the input
 formEl.addEventListener("submit", submitHandler);
 
-// Add a list item once form submitted
+// Send List Item to the Server
+fetch("https://bytegrad.com/course-assets/js/1/api/feedbacks", {
+  method: "POST",
+  body: JSON.stringify(feedbackItem),
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
 
 // Retrieve the data from the server
 fetch("https://bytegrad.com/course-assets/js/1/api/feedbacks")
