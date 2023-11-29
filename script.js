@@ -113,11 +113,17 @@ formEl.addEventListener("submit", submitHandler);
 const clickHandler = (event) => {
   // get the html element that was clicked
   const clickedEl = event.target;
+  const upvoteCountEl = document.querySelector(".upvote__count");
+
   // determine if the clicked element was the upvote button or expansion
   const upvoteIntention = clickedEl.className.includes("upvote");
   if (upvoteIntention == true) {
     //get the upvote count
-    console.log("upvote clicked");
+    clickedEl.closest(".feedback").textContent = upvoteCountEl + 1;
+    console.log();
+  } else {
+    // get feedback content
+    clickedEl.closest(".feedback").classList.toggle("feedback--expand");
   }
 };
 listEl.addEventListener("click", clickHandler);
