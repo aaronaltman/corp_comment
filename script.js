@@ -4,6 +4,7 @@ const formEl = document.querySelector(".form");
 const submitButtonEl = document.querySelector(".submit-btn");
 const counterEl = document.querySelector(".counter");
 const listEl = document.querySelector(".feedbacks");
+const hashtagListEl = document.querySelector(".hashtags");
 const spinnerEl = document.querySelector(".spinner");
 const BASE_API_URL = "https://bytegrad.com/course-assets/js/1/api";
 
@@ -147,4 +148,29 @@ fetch(`${BASE_API_URL}/feedbacks`)
     console.log(error);
   });
 
-// Display the data on the page
+// -- Hashtag List Component --
+const hashtagClickHandler = (event) => {
+  // get clicked element
+  const clickedEl = event.target;
+  // stop function if button not clicked
+  if (clickedEl.className === "hashtags") return;
+  // get the company name
+  const companyNameFromHashtag = clickedEl.textContent
+    .substring(1)
+    .toLowerCase()
+    .trim();
+  // iterate over the list items
+  listEl.childNodes.forEach((childNode) => {
+    if (childNode.nodeType === 3) {
+      return;
+      const companyNamefromFeedback =
+        childNode.querySelector(".feedback__company").textContent;
+      // if the company name matches the hashtag, expand the list item
+      if (companyNameFromHashtag !== companyNamefromFeedback) {
+        childNode.remove();
+      }
+    }
+  });
+};
+
+hashtagListEl.addEventListener("click", hashtagClickHandler);
