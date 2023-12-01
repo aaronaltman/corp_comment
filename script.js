@@ -33,7 +33,7 @@ const renderFeedbackItem = (feedbackItem) => {
   </li>`;
   listEl.insertAdjacentHTML("beforeend", feedbackItemHTML);
 };
-
+// Counter COMPONENT
 // -- Counter Component (150) --
 // -- Counts the number of characters and subtracts from counter --
 const inputHandler = () => {
@@ -111,6 +111,7 @@ const submitHandler = (event) => {
 formEl.addEventListener("submit", submitHandler);
 
 // -- Expand list item functionatility --
+
 const clickHandler = (event) => {
   // get the html element that was clicked
   const clickedEl = event.target;
@@ -148,29 +149,26 @@ fetch(`${BASE_API_URL}/feedbacks`)
     console.log(error);
   });
 
-// -- Hashtag List Component --
-const hashtagClickHandler = (event) => {
-  // get clicked element
+// -- Hashtag Component --
+const clickHandler2 = (event) => {
+  // Get the clicked element
   const clickedEl = event.target;
-  // stop function if button not clicked
-  if (clickedEl.className === "hashtags") return;
-  // get the company name
-  const companyNameFromHashtag = clickedEl.textContent
-    .substring(1)
-    .toLowerCase()
-    .trim();
-  // iterate over the list items
-  listEl.childNodes.forEach((childNode) => {
-    if (childNode.nodeType === 3) {
-      return;
-      const companyNamefromFeedback =
-        childNode.querySelector(".feedback__company").textContent;
-      // if the company name matches the hashtag, expand the list item
-      if (companyNameFromHashtag !== companyNamefromFeedback) {
+  if (clickedEl.className == "hashtag") {
+    const hashtagCompanyName = clickedEl.textContent
+      .substring(1)
+      .toLowerCase()
+      .trim();
+    listEl.childNodes.forEach((childNode) => {
+      if (childNode.nodeType === 3) return;
+      const companyNameFromList = childNode
+        .querySelector(".feedback__company")
+        .textContent.toLowerCase()
+        .trim();
+      if (hashtagCompanyName !== companyNameFromList) {
         childNode.remove();
       }
-    }
-  });
+    });
+  }
 };
 
-hashtagListEl.addEventListener("click", hashtagClickHandler);
+hashtagListEl.addEventListener("click", clickHandler2);
