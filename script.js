@@ -149,26 +149,28 @@ fetch(`${BASE_API_URL}/feedbacks`)
     console.log(error);
   });
 
-// -- Hashtag Component --
-const clickHandler2 = (event) => {
-  // Get the clicked element
-  const clickedEl = event.target;
-  if (clickedEl.className == "hashtag") {
-    const hashtagCompanyName = clickedEl.textContent
-      .substring(1)
-      .toLowerCase()
-      .trim();
-    listEl.childNodes.forEach((childNode) => {
-      if (childNode.nodeType === 3) return;
-      const companyNameFromList = childNode
-        .querySelector(".feedback__company")
-        .textContent.toLowerCase()
+// -- Hashtag Component -- -- HASHTAG COMPONENT --
+(() => {
+  const clickHandler2 = (event) => {
+    // Get the clicked element
+    const clickedEl = event.target;
+    if (clickedEl.className == "hashtag") {
+      const hashtagCompanyName = clickedEl.textContent
+        .substring(1)
+        .toLowerCase()
         .trim();
-      if (hashtagCompanyName !== companyNameFromList) {
-        childNode.remove();
-      }
-    });
-  }
-};
+      listEl.childNodes.forEach((childNode) => {
+        if (childNode.nodeType === 3) return;
+        const companyNameFromList = childNode
+          .querySelector(".feedback__company")
+          .textContent.toLowerCase()
+          .trim();
+        if (hashtagCompanyName !== companyNameFromList) {
+          childNode.remove();
+        }
+      });
+    }
+  };
 
-hashtagListEl.addEventListener("click", clickHandler2);
+  hashtagListEl.addEventListener("click", clickHandler2);
+})();
